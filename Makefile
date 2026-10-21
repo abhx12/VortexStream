@@ -50,10 +50,10 @@ sim-data:
 
 # Phase 5: Replay
 replay:
-	@echo "not implemented until phase 5" && exit 2
+	python -m qoe.producers.replay $(ARGS)
 
 replay-demo:
-	@echo "not implemented until phase 5" && exit 2
+	python -m qoe.producers.replay --speed 60 --duration 6 --dry-run
 
 # Phase 6-8, 11: Streaming queries
 q0:
@@ -127,7 +127,7 @@ test-phase4:
 	pytest tests/phase_4 -v
 
 test-phase5:
-	@echo "not implemented until phase 5" && exit 2
+	pytest tests/phase_5 -v
 
 test-phase6:
 	@echo "not implemented until phase 6" && exit 2

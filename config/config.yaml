@@ -1,6 +1,18 @@
 kafka:
   bootstrap_internal: "kafka:19092"
   bootstrap_external: "localhost:9092"
+  topics:
+    playback_events: "playback-events"
+    network_metrics: "network-metrics"
+    errors: "errors"
+    playback_clean: "playback-clean"
+    network_clean: "network-clean"
+    session_facts: "session-facts"
+    alerts: "alerts"
+    dlq: "dlq"
+    predictions: "predictions"
+    ref_content: "ref-content"
+    ref_users: "ref-users"
 
 replay:
   speed: 10

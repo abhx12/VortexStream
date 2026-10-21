@@ -207,3 +207,11 @@ def get_config(reload: bool = False, config_dir: Optional[str | Path] = None) ->
     if _CACHED_CONFIG is None or reload:
         _CACHED_CONFIG = load_config(config_dir)
     return _CACHED_CONFIG
+
+
+def get_topic(topic_name: str) -> str:
+    """Return topic name from configuration."""
+    cfg = get_config()
+    topics = cfg.get("kafka", {}).get("topics", {})
+    return str(topics.get(topic_name, topic_name.replace("_", "-")))
+
