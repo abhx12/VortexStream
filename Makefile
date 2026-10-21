@@ -57,7 +57,7 @@ replay-demo:
 
 # Phase 6-8, 11: Streaming queries
 q0:
-	@echo "not implemented until phase 6" && exit 2
+	python -m qoe.streaming.q0_ingest_clean
 
 q1:
 	@echo "not implemented until phase 7" && exit 2
@@ -130,7 +130,7 @@ test-phase5:
 	pytest tests/phase_5 -v
 
 test-phase6:
-	@echo "not implemented until phase 6" && exit 2
+	pytest tests/phase_6 -v
 
 test-phase7:
 	@echo "not implemented until phase 7" && exit 2
