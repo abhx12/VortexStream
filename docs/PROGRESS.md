@@ -5,7 +5,7 @@
 | Phase | Title | Status | Date Completed | Notes / Test Results |
 |---|---|---|---|---|
 | Phase 0 | Bootstrap & conventions | COMPLETED | 2026-10-21 | 6/6 tests passing (config, logging, Makefile, doctor, tunables) |
-| Phase 1 | Infrastructure (Docker: Kafka, HBase, app) | PENDING | - | Kafka KRaft, HBase 2.5 Thrift, app Dockerfile |
+| Phase 1 | Infrastructure (Docker: Kafka, HBase, app) | COMPLETED | 2026-10-21 | 7/7 tests passing (HBase keys, salts, rev_minute, topics, compose) |
 | Phase 2 | Puffer data acquisition & profiling | PENDING | - | Download and profiling of Stanford Puffer day |
 | Phase 3 | Preprocess Puffer into unified events | PENDING | - | DuckDB preprocessing into events/network Parquet |
 | Phase 4 | Simulated dimensions, reference data, faults | PENDING | - | User/content reference data, fault model, sim dims |

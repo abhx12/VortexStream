@@ -3,7 +3,11 @@
 import sys
 from pathlib import Path
 
-# Ensure src is on sys.path
-SRC_DIR = Path(__file__).resolve().parent.parent / "src"
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
+# Ensure src and repo root are on sys.path
+REPO_ROOT = Path(__file__).resolve().parent.parent
+SRC_DIR = REPO_ROOT / "src"
+
+for p in [str(SRC_DIR), str(REPO_ROOT)]:
+    if p not in sys.path:
+        sys.path.insert(0, p)
+

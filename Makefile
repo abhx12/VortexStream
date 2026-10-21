@@ -115,7 +115,7 @@ test-phase0:
 	pytest tests/phase_0 -v
 
 test-phase1:
-	@echo "not implemented until phase 1" && exit 2
+	pytest tests/phase_1 -v
 
 test-phase2:
 	@echo "not implemented until phase 2" && exit 2
