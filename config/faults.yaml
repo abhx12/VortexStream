@@ -1,0 +1,44 @@
+faults:
+  - id: F1
+    type: isp_outage
+    selector:
+      isp: Airtel
+      city: Chennai
+    start_min: 25
+    duration_min: 15
+    effects:
+      throughput_mult: 0.15
+      rtt_mult: 4.0
+      loss_add_pct: 4.0
+      stall_prob_per_heartbeat: 0.25
+      stall_ms_range: [1500, 9000]
+      vsf_prob: 0.25
+      error_prob_per_heartbeat: 0.02
+      bitrate_downshift_steps: 2
+      early_abandon_prob: 0.30
+
+  - id: F2
+    type: cdn_slowdown
+    selector:
+      cdn: Akamai
+    start_min: 60
+    duration_min: 15
+    effects:
+      throughput_mult: 0.35
+      rtt_mult: 2.5
+      loss_add_pct: 1.5
+      stall_prob_per_heartbeat: 0.10
+      stall_ms_range: [800, 4000]
+      bitrate_downshift_steps: 1
+
+  - id: F3
+    type: app_version_bug
+    selector:
+      device: android
+      app_version: "5.2.1"
+    start_min: 90
+    duration_min: 10
+    effects:
+      error_prob_per_heartbeat: 0.08
+      error_codes: [DECODE_ERR]
+      early_abandon_prob: 0.20

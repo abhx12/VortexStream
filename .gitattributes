@@ -1,0 +1,8 @@
+# Force LF line endings for scripts, code, configs and Makefile on all platforms
+*.sh text eol=lf
+*.py text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.sql text eol=lf
+Makefile text eol=lf

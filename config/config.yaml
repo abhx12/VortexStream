@@ -1,0 +1,77 @@
+kafka:
+  bootstrap_internal: "kafka:19092"
+  bootstrap_external: "localhost:9092"
+
+replay:
+  speed: 10
+  window_minutes: 120
+  start_offset_minutes: 0
+  max_sessions: 4000
+  seed: 42
+  heartbeat_s: 5
+
+streaming:
+  watermark_ingest: "2 minutes"
+  watermark_tracker: "1 minute"
+  window: "5 minutes"
+  slide: "1 minute"
+  trigger_seconds: 5
+  shuffle_partitions: 8
+  max_offsets_per_trigger: 20000
+  vsf_timeout_s: 10
+  session_idle_s: 60                   # Q1 closes a stream with no events for this long (data time)
+  checkpoint_root: "data/checkpoints"
+
+qoe:
+  weights:
+    startup: 15
+    rebuffer: 40
+    switch: 10
+    bitrate: 15
+    failure: 20                        # sum 100
+  startup_good_s: 1.0
+  startup_bad_s: 8.0
+  rebuffer_full_penalty_ratio: 0.10
+  switches_per_min_full_penalty: 2.0
+  hd_min_height: 720
+  failure_full_penalty_rate: 0.10
+  labels:
+    good_min: 80
+    fair_min: 60
+
+alerts:
+  min_sessions: 20
+  rebuffer_ratio_threshold: 0.03       # to be calibrated in Phase 9
+  vsf_rate_threshold: 0.15             # to be calibrated
+  error_rate_threshold: 0.05           # to be calibrated (R4)
+  critical_multiplier: 2.0             # severity=critical when value > threshold * this, else warn
+  qoe_drop_points: 15
+  baseline_lag_minutes: 5
+  consecutive_windows: 2
+  cooldown_minutes: 10
+
+hbase:
+  host: "hbase"
+  port: 9090
+  salt_buckets: 16
+  batch_size: 500
+  ttl_session_state_s: 21600
+  ttl_qoe_metrics_s: 86400
+
+ml:
+  early_window_s: 15
+  abandon_watch_s: 120
+  folds: 3
+  seed: 42
+  test_fraction: 0.3
+  anomaly:
+    robust_z_threshold: 3.5
+    kmeans_k_range: [2, 8]
+    max_fp_per_baseline_hour: 3
+
+paths:
+  data: "data"
+  warehouse: "data/warehouse"
+  models: "data/models"
+  ledger: "data/ledger"
+  manifests: "data/manifests"

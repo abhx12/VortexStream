@@ -1,0 +1,11 @@
+duplicate_rate: 0.005
+late_rate: 0.005
+late_delay_s: [20, 90]        # data seconds; must stay below watermark_ingest + margin for most, a few exceed it on purpose
+invalid_rate: 0.003
+invalid_kinds:
+  negative_buffer: 0.25
+  missing_session_id: 0.2
+  impossible_bitrate: 0.2
+  bad_ts: 0.2
+  missing_event_type: 0.15
+dirty_dims_rate: 0.02

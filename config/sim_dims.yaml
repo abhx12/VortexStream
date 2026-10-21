@@ -1,0 +1,55 @@
+seed_salt: 42
+user_pool_size: 50000
+country: "IN"
+
+city:
+  weights:
+    Chennai: 0.20
+    Bengaluru: 0.20
+    Mumbai: 0.20
+    Delhi: 0.15
+    Hyderabad: 0.10
+    Coimbatore: 0.08
+    Kolkata: 0.07
+
+isp:
+  weights:
+    Jio: 0.38
+    Airtel: 0.32
+    ACT: 0.12
+    Vi: 0.10
+    BSNL: 0.08
+
+cdn:
+  weights:
+    Akamai: 0.40
+    CloudFront: 0.35
+    Fastly: 0.25
+
+device:
+  weights:
+    android: 0.55
+    ios: 0.20
+    web: 0.15
+    smarttv: 0.10
+
+app_version:
+  weights:
+    "5.2.1": 0.50
+    "5.2.0": 0.30
+    "5.1.9": 0.20
+
+errors:
+  rate_per_stream: 0.001
+  codes:
+    NET_TIMEOUT: 0.40
+    CDN_5XX: 0.30
+    DECODE_ERR: 0.20
+    DRM_ERR: 0.10
+
+packet_loss:
+  mu: -2.3
+  sigma: 0.7
+  k1: 1.0
+  k2: 1.0
+  max_pct: 15.0

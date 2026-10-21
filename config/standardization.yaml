@@ -1,0 +1,42 @@
+device:
+  android: android
+  "android phone": android
+  ios: ios
+  iphone: ios
+  web: web
+  browser: web
+  smarttv: smarttv
+  "smart tv": smarttv
+  tv: smarttv
+
+isp:
+  jio: Jio
+  "reliance jio": Jio
+  airtel: Airtel
+  "bharti airtel": Airtel
+  act: ACT
+  "act fibernet": ACT
+  vi: Vi
+  vodafone: Vi
+  bsnl: BSNL
+
+city:
+  chennai: Chennai
+  madras: Chennai
+  bengaluru: Bengaluru
+  bangalore: Bengaluru
+  mumbai: Mumbai
+  bombay: Mumbai
+  delhi: Delhi
+  "new delhi": Delhi
+  hyderabad: Hyderabad
+  coimbatore: Coimbatore
+  kolkata: Kolkata
+  calcutta: Kolkata
+
+country:
+  in: IN
+  india: IN
+  ind: IN
+
+unknown_value: "unknown"
