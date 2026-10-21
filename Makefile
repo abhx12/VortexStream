@@ -32,13 +32,13 @@ lint:
 
 # Phase 2: Puffer data
 data:
-	@echo "not implemented until phase 2" && exit 2
+	python -m qoe.data.puffer_download
 
 data-fake:
-	@echo "not implemented until phase 2" && exit 2
+	python -m qoe.data.make_fake_puffer
 
 profile:
-	@echo "not implemented until phase 2" && exit 2
+	python -m qoe.data.profile
 
 # Phase 3: Preprocess
 preprocess:
@@ -118,7 +118,7 @@ test-phase1:
 	pytest tests/phase_1 -v
 
 test-phase2:
-	@echo "not implemented until phase 2" && exit 2
+	pytest tests/phase_2 -v
 
 test-phase3:
 	@echo "not implemented until phase 3" && exit 2
