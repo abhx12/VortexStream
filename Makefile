@@ -42,7 +42,7 @@ profile:
 
 # Phase 3: Preprocess
 preprocess:
-	@echo "not implemented until phase 3" && exit 2
+	python -m qoe.data.preprocess
 
 # Phase 4: Sim data
 sim-data:
@@ -121,7 +121,7 @@ test-phase2:
 	pytest tests/phase_2 -v
 
 test-phase3:
-	@echo "not implemented until phase 3" && exit 2
+	pytest tests/phase_3 -v
 
 test-phase4:
 	@echo "not implemented until phase 4" && exit 2
