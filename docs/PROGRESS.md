@@ -8,7 +8,7 @@
 | Phase 1 | Infrastructure (Docker: Kafka, HBase, app) | COMPLETED | 2026-10-21 | 7/7 tests passing (HBase keys, salts, rev_minute, topics, compose) |
 | Phase 2 | Puffer data acquisition & profiling | COMPLETED | 2026-10-21 | 4/4 tests passing (schema, time units, profile report, caching) |
 | Phase 3 | Preprocess Puffer into unified events | COMPLETED | 2026-10-21 | 7/7 tests passing (DuckDB ASOF join, downsampling, events/network/truth) |
-| Phase 4 | Simulated dimensions, reference data, faults | PENDING | - | User/content reference data, fault model, sim dims |
+| Phase 4 | Simulated dimensions, reference data, faults | COMPLETED | 2026-10-21 | 6/6 tests passing (deterministic dims, reference data, packet loss, faults) |
 | Phase 5 | Replay producers, fault injection, chaos | PENDING | - | Live speed-controlled Kafka replay + chaos |
 | Phase 6 | Structured Streaming Q0: Ingest, clean, route | PENDING | - | Parsing, JSON Schema validation, standardization |
 | Phase 7 | Structured Streaming Q1: Session tracker | PENDING | - | State management with applyInPandasWithState |

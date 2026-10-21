@@ -46,7 +46,7 @@ preprocess:
 
 # Phase 4: Sim data
 sim-data:
-	@echo "not implemented until phase 4" && exit 2
+	python -m qoe.data.ref_data
 
 # Phase 5: Replay
 replay:
@@ -124,7 +124,7 @@ test-phase3:
 	pytest tests/phase_3 -v
 
 test-phase4:
-	@echo "not implemented until phase 4" && exit 2
+	pytest tests/phase_4 -v
 
 test-phase5:
 	@echo "not implemented until phase 5" && exit 2
