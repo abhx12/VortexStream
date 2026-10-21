@@ -60,13 +60,13 @@ q0:
 	python -m qoe.streaming.q0_ingest_clean
 
 q1:
-	@echo "not implemented until phase 7" && exit 2
+	python -m qoe.streaming.q1_session_tracker
 
 q2:
-	@echo "not implemented until phase 8" && exit 2
+	python -m qoe.streaming.q2_qoe_aggregator
 
 q3:
-	@echo "not implemented until phase 8" && exit 2
+	python -m qoe.streaming.q3_network_aggregator
 
 q4:
 	@echo "not implemented until phase 11" && exit 2
@@ -133,10 +133,10 @@ test-phase6:
 	pytest tests/phase_6 -v
 
 test-phase7:
-	@echo "not implemented until phase 7" && exit 2
+	pytest tests/phase_7 -v
 
 test-phase8:
-	@echo "not implemented until phase 8" && exit 2
+	pytest tests/phase_8 -v
 
 test-phase9:
 	@echo "not implemented until phase 9" && exit 2
@@ -157,4 +157,5 @@ test-phase14:
 	@echo "not implemented until phase 14" && exit 2
 
 test-all:
-	pytest tests/phase_0 -v
+	pytest tests/phase_0 tests/phase_1 tests/phase_2 tests/phase_3 tests/phase_4 tests/phase_5 tests/phase_6 tests/phase_7 tests/phase_8 -v
+
