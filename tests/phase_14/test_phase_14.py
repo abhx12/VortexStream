@@ -14,8 +14,18 @@ from qoe.streaming.q1_session_tracker import process_session_events
 from qoe.streaming.q2_qoe_aggregator import compute_qoe_window_aggregates
 from qoe.streaming.q3_network_aggregator import compute_network_window_aggregates
 from qoe.streaming.q4_ml_scoring import score_early_features_batch
+from tests.phase_14.e2e_full import run_e2e_pipeline_verification
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+
+
+def test_e2e_full_acceptance(tmp_path):
+    """Verify full end-to-end acceptance run produces clean status and valid outputs."""
+    res = run_e2e_pipeline_verification(tmp_path / "warehouse")
+    assert res["status"] == "PASS"
+    assert res["qoe_rows_computed"] > 0
+    assert res["network_rows_computed"] > 0
+    assert 0.0 <= res["abandon_prob"] <= 1.0
 
 
 def test_e2e_components(tmp_path):
@@ -141,6 +151,12 @@ def test_docs_complete():
         doc_path = REPO_ROOT / doc_rel
         assert doc_path.is_file(), f"Required documentation '{doc_rel}' is missing."
         assert doc_path.stat().st_size > 100, f"Documentation '{doc_rel}' is suspiciously small."
+
+    # Verify screenshots exist
+    screenshots_dir = REPO_ROOT / "docs" / "screenshots"
+    assert screenshots_dir.is_dir(), "docs/screenshots directory is missing."
+    screenshots = list(screenshots_dir.glob("*.png"))
+    assert len(screenshots) >= 3, f"Expected at least 3 screenshots, found {len(screenshots)}"
 
     # Verify honest transparency disclaimer appears across key documents
     disclaimer_keyword = "Stanford Puffer"

@@ -94,7 +94,7 @@ def check_docker_daemon() -> Tuple[bool, str]:
 
 def main() -> int:
     print("=" * 60)
-    print(" OTT QoE Engine — Environment Doctor")
+    print(" OTT QoE Engine -- Environment Doctor")
     print("=" * 60)
 
     checks = [

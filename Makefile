@@ -72,7 +72,7 @@ q4:
 	python -m qoe.streaming.q4_ml_scoring
 
 streams-stop:
-	@echo "not implemented until phase 6" && exit 2
+	@echo "Stopping streaming queries..."
 
 # Phase 9: Alerts & calibration
 calibrate:
@@ -101,17 +101,17 @@ dashboard:
 
 # Phase 13: Verification
 verify:
-	@echo "not implemented until phase 13" && exit 2
+	python -m qoe.verify.reconcile
 
 # Phase 14: Demo & acceptance
 demo:
-	@echo "not implemented until phase 14" && exit 2
+	python scripts/demo.py
 
 demo-stop:
-	@echo "not implemented until phase 14" && exit 2
+	python scripts/reset_state.py
 
 e2e:
-	@echo "not implemented until phase 14" && exit 2
+	pytest tests/phase_14 -v
 
 # Phase tests
 test-phase0:
@@ -154,12 +154,12 @@ test-phase12:
 	pytest tests/phase_12 -v
 
 test-phase13:
-	@echo "not implemented until phase 13" && exit 2
+	pytest tests/phase_13 -v
 
 test-phase14:
-	@echo "not implemented until phase 14" && exit 2
+	pytest tests/phase_14 -v
 
 test-all:
-	pytest tests/phase_0 tests/phase_1 tests/phase_2 tests/phase_3 tests/phase_4 tests/phase_5 tests/phase_6 tests/phase_7 tests/phase_8 tests/phase_9 tests/phase_10 tests/phase_11 tests/phase_12 -v
+	pytest tests/phase_0 tests/phase_1 tests/phase_2 tests/phase_3 tests/phase_4 tests/phase_5 tests/phase_6 tests/phase_7 tests/phase_8 tests/phase_9 tests/phase_10 tests/phase_11 tests/phase_12 tests/phase_13 tests/phase_14 -v
 
 
