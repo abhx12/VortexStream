@@ -85,10 +85,10 @@ def create_dashboard_app(data_access: Optional[DashboardDataAccess] = None):
                 for a in alerts:
                     sev = a.get("severity", "warn")
                     status = a.get("status", "open")
-                    color = "red" if sev == "critical" else "orange"
+                    color = "red" if str(sev).lower() == "critical" else "orange"
                     st.markdown(
                         f"**:{color}[{status.upper()}]** `Rule {a.get('rule')}`: **{a.get('dimkey')}** "
-                        f"({a.get('metric')} = {a.get('value')})"
+                        f"(value: {a.get('metric_value') or a.get('value')} | threshold: {a.get('threshold')})"
                     )
             else:
                 st.success("No active alerts. All regional segments within nominal baseline thresholds.")
