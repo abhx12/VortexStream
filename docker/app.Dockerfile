@@ -30,7 +30,8 @@ RUN pip install --no-cache-dir \
     "pytest==8.3.3" \
     "streamlit==1.39.0" \
     "plotly==5.24.1" \
-    "streamlit-autorefresh==1.0.1"
+    "streamlit-autorefresh==1.0.1" \
+    "scikit-learn>=1.5.0"
 
 # Copy repository
 COPY . /app
