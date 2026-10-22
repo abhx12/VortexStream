@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# demo.sh — end-to-end demo execution script
+# demo.sh — End-to-end demo execution script
 set -euo pipefail
 
-echo "Starting OTT QoE Analytics Demo..."
-echo "Demo script initialized (Phase 14 task)"
+echo "=========================================================="
+echo " Starting VortexStream Real-Time OTT QoE Engine Demo"
+echo "=========================================================="
+
+python scripts/demo.py "$@"
