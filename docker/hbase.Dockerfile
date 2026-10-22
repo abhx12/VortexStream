@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim-bullseye
+FROM eclipse-temurin:11-jre-jammy
 
 ARG HBASE_VERSION=2.5.8
 ENV HBASE_VERSION=${HBASE_VERSION}
@@ -8,7 +8,7 @@ ENV PATH="${HBASE_HOME}/bin:${PATH}"
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     procps \
-    netcat-traditional \
+    netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
 # Download HBase standalone from Apache archive

@@ -49,7 +49,7 @@ def init_hbase(host: str = "hbase", port: int = 9090, drop: bool = False) -> Non
                     "playback": dict(max_versions=1, time_to_live=21600),
                     "context": dict(max_versions=1, time_to_live=21600),
                 },
-                splits=get_salt_splits(16),
+                
             )
             print(f"[CREATED] {table_name}")
         else:
