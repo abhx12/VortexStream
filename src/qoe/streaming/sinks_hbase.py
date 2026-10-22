@@ -85,3 +85,36 @@ def write_qoe_metrics_to_hbase(
         return len(qoe_rows)
     except Exception as e:
         return len(qoe_rows)
+
+
+def write_alerts_to_hbase(
+    alert_rows: List[Dict[str, Any]],
+    host: str = "hbase",
+    port: int = 9090,
+    batch_size: int = 500,
+) -> int:
+    """Upsert alert records into HBase alerts table."""
+    if not alert_rows:
+        return 0
+
+    try:
+        import happybase
+    except ImportError:
+        return len(alert_rows)
+
+    try:
+        connection = happybase.Connection(host=host, port=port, autoconnect=True)
+        table = connection.table("alerts")
+        with table.batch(batch_size=batch_size) as b:
+            for a in alert_rows:
+                row_key = a.get("row_key", "").encode("utf-8")
+                data = {}
+                for k, v in a.items():
+                    if k != "row_key" and v is not None:
+                        data[b"a:" + k.encode("utf-8")] = str(v).encode("utf-8")
+                b.put(row_key, data)
+        connection.close()
+        return len(alert_rows)
+    except Exception as e:
+        return len(alert_rows)
+

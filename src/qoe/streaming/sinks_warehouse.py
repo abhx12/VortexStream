@@ -174,3 +174,16 @@ def write_gold_network_5m(
         partition_cols=["grain"],
     )
 
+
+def write_alerts(
+    alert_records: Any,
+    warehouse_dir: str | Path = "data/warehouse",
+) -> Path:
+    """Append alert events to warehouse alerts Parquet."""
+    return write_partitioned_parquet(
+        alert_records,
+        output_dir=Path(warehouse_dir) / "alerts",
+        partition_cols=["rule"],
+    )
+
+
