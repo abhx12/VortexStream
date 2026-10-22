@@ -69,32 +69,35 @@ q3:
 	python -m qoe.streaming.q3_network_aggregator
 
 q4:
-	@echo "not implemented until phase 11" && exit 2
+	python -m qoe.streaming.q4_ml_scoring
 
 streams-stop:
 	@echo "not implemented until phase 6" && exit 2
 
 # Phase 9: Alerts & calibration
 calibrate:
-	@echo "not implemented until phase 9" && exit 2
+	python -m qoe.streaming.calibrate
 
 eval-alerts:
-	@echo "not implemented until phase 9" && exit 2
+	python -m qoe.verify.eval_alerts
 
 # Phase 10: Batch demo
 batch-demo:
-	@echo "not implemented until phase 10" && exit 2
+	python -m qoe.batch.rdd_demo
+	python -m qoe.batch.sql_demo
+	python -m qoe.batch.warehouse
+	python -m qoe.batch.hourly_rollup
 
 # Phase 11: ML training & eval
 train:
-	@echo "not implemented until phase 11" && exit 2
+	python -m qoe.ml.churn_model
 
 eval-anomaly:
-	@echo "not implemented until phase 11" && exit 2
+	python -m qoe.verify.eval_anomaly
 
 # Phase 12: Dashboard
 dashboard:
-	@echo "not implemented until phase 12" && exit 2
+	python -m qoe.dashboard.app
 
 # Phase 13: Verification
 verify:
@@ -139,16 +142,16 @@ test-phase8:
 	pytest tests/phase_8 -v
 
 test-phase9:
-	@echo "not implemented until phase 9" && exit 2
+	pytest tests/phase_9 -v
 
 test-phase10:
-	@echo "not implemented until phase 10" && exit 2
+	pytest tests/phase_10 -v
 
 test-phase11:
-	@echo "not implemented until phase 11" && exit 2
+	pytest tests/phase_11 -v
 
 test-phase12:
-	@echo "not implemented until phase 12" && exit 2
+	pytest tests/phase_12 -v
 
 test-phase13:
 	@echo "not implemented until phase 13" && exit 2
@@ -157,5 +160,6 @@ test-phase14:
 	@echo "not implemented until phase 14" && exit 2
 
 test-all:
-	pytest tests/phase_0 tests/phase_1 tests/phase_2 tests/phase_3 tests/phase_4 tests/phase_5 tests/phase_6 tests/phase_7 tests/phase_8 -v
+	pytest tests/phase_0 tests/phase_1 tests/phase_2 tests/phase_3 tests/phase_4 tests/phase_5 tests/phase_6 tests/phase_7 tests/phase_8 tests/phase_9 tests/phase_10 tests/phase_11 tests/phase_12 -v
+
 

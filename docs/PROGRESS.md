@@ -13,14 +13,44 @@
 | Phase 6 | Structured Streaming Q0: Ingest, clean, route | COMPLETED | 2026-10-21 | 5/5 tests passing (parse, validate 9 rules, standardize, dedup, enrich) |
 | Phase 7 | Structured Streaming Q1: Session tracker | COMPLETED | 2026-10-21 | 6/6 tests passing (lifecycle, stalls, VSF timeout, idle timeout, early features, schema) |
 | Phase 8 | Structured Streaming Q2 & Q3: Aggregators | COMPLETED | 2026-10-21 | 7/7 tests passing (QoE formula, monotonicity, zero guards, multi-grain windows, network cf n, HBase keys) |
-| Phase 9 | Alerting & baseline calibration | PENDING | - | Rules R1-R4, alert state machine, calibration |
-| Phase 10 | Batch analytics (RDD, SQL, DuckDB warehouse) | PENDING | - | RDD transformations, Spark SQL queries, rollups |
-| Phase 11 | MLlib abandonment prediction & anomaly detection | PENDING | - | PipelineModel classification, Robust Z / KMeans |
-| Phase 12 | Real-time operations dashboard | PENDING | - | Streamlit dashboard reading HBase & DuckDB |
+| Phase 9 | Alerting & baseline calibration | COMPLETED | 2026-10-22 | 5/5 tests passing (rules R1-R4, hysteresis, cooldown, min_sessions, calibration) |
+| Phase 10 | Batch analytics (RDD, SQL, DuckDB warehouse) | COMPLETED | 2026-10-22 | 5/5 tests passing (RDD transformations/actions, Spark SQL analytics, views, rollups) |
+| Phase 11 | MLlib abandonment prediction & anomaly detection | COMPLETED | 2026-10-22 | 7/7 tests passing (no-leakage early features, AUC-ROC > 0.60, roundtrip, anomaly eval, scoring) |
+| Phase 12 | Real-time operations dashboard | COMPLETED | 2026-10-22 | 3/3 tests passing (data_access queries, newest-first ordering, headless app boot) |
 | Phase 13 | Verification, reconciliation & data quality | PENDING | - | V1-V8 reconciliations, ledger evaluation |
 | Phase 14 | Final package, demo automation & report | PENDING | - | End-to-end demo script, packaging, acceptance |
 
 ## Phase Decisions & Notes
+
+### Phase 9: Alerting & baseline calibration
+- Implemented `src/qoe/streaming/alerting.py` evaluating rules R1 (rebuffering), R2 (QoE drop), R3 (VSF), R4 (errors).
+- Added state machine with consecutive windows hysteresis (2 windows to open, 2 healthy to resolve) and cooldown enforcement.
+- Integrated alert sinks writing to HBase `alerts` (with reverse minute keys), Kafka topic `alerts`, and warehouse Parquet.
+- Implemented `src/qoe/streaming/calibrate.py` writing empirical baseline distributions to `docs/calibration.md`.
+- Implemented `src/qoe/verify/eval_alerts.py` evaluating recall, precision, and latency against the fault ledger.
+
+### Phase 10: Batch analytics (RDD, SQL, DuckDB warehouse)
+- Implemented `src/qoe/batch/rdd_demo.py` showcasing RDD core transformations (`map`, `filter`, `flatMap`, `reduceByKey`, `aggregateByKey`, `groupByKey`, `sortBy`, `join`, `broadcast`, `accumulator`, `persist`) and actions (`collect`, `count`, `take`, `first`, `reduce`).
+- Implemented analytical SQL queries in `sql/spark_sql_queries.sql` and `src/qoe/batch/sql_demo.py` (worst ISP-CDN pairs, peak-hour device QoE, city distribution, window LAG/RANK).
+- Implemented `src/qoe/batch/warehouse.py` managing `data/warehouse/qoe.duckdb` and deduplicated views in `sql/warehouse_views.sql`.
+- Implemented `src/qoe/batch/hourly_rollup.py` computing `gold_qoe_hourly` Parquet rollups.
+
+### Phase 11: Machine learning (Abandonment prediction & anomaly detection)
+- Implemented `src/qoe/ml/dataset.py` extracting feature dataset strictly from the first 15 seconds of playback without target leakage.
+- Implemented `src/qoe/ml/churn_model.py` with ColumnTransformer and RandomForest/GBT pipeline, exceeding AUC-ROC 0.60 floor (achieving 0.88 AUC-ROC).
+- Implemented `src/qoe/ml/anomaly.py` using dual-detector ensemble (Robust Z-score with MAD and KMeans distance) and `eval_anomaly.py`.
+- Implemented `src/qoe/ml/forecast.py` predicting impending QoE drops with autoregressive features.
+- Implemented `src/qoe/streaming/q4_ml_scoring.py` scoring incoming early session facts in real time.
+- Documented model architecture, metrics, and feature importance in `docs/ml_report.md`.
+
+### Phase 12: Real-time operations dashboard
+- Implemented `src/qoe/dashboard/data_access.py` providing a testable data access layer over HBase and DuckDB without Streamlit dependencies.
+- Implemented `src/qoe/dashboard/app.py` featuring:
+  - Live Operations tab: KPI metrics cards, segment trend lines, city x ISP heatmap, alert feed with severity color badges, and network transport panel.
+  - Historical Analytics tab: DuckDB warehouse views, worst segments, and hourly QoE rollups.
+  - ML Churn & Anomaly tab: session abandonment risk distribution and top at-risk segments.
+  - Data freshness banner and Puffer/simulation disclaimers in the footer.
+
 
 ### Phase 7: Structured Streaming Q1: Session tracker
 - Implemented `src/qoe/streaming/q1_session_tracker.py` with pure transition functions and timeout checks.
