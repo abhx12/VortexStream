@@ -8,6 +8,8 @@ from pathlib import Path
 import sys
 import time
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'src'))
+
 from qoe.common.config import get_config
 from qoe.data.ref_data import generate_reference_data
 from qoe.data.sim_dims import generate_simulated_dimensions
