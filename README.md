@@ -12,12 +12,6 @@
 
 ---
 
-## 👥 Authors & Team
-* **J R Abhishek** (24PW17)
-* **Pranav PK** (24PW25)
-
----
-
 ## 📑 Table of Contents
 1. [Executive Summary & Problem Statement](#1-executive-summary--problem-statement)
 2. [Dual-Path Architecture & Data Flow](#2-dual-path-architecture--data-flow)
@@ -28,7 +22,6 @@
 7. [Automated Pipeline Reconciliation (V1–V8 Gates)](#7-automated-pipeline-reconciliation-v1v8-gates)
 8. [Quick Start & Step-by-Step Commands](#8-quick-start--step-by-step-commands)
 9. [Project Directory Layout](#9-project-directory-layout)
-10. [Academic Deliverables & Documentation](#10-academic-deliverables--documentation)
 
 ---
 
@@ -246,14 +239,10 @@ VortexStream/
 ├── pyproject.toml                  # Project packaging and dependencies
 ├── Makefile                        # Development lifecycle commands
 ├── README.md                       # Master project documentation
-├── PROJECT_DEEP_DIVE.md            # Comprehensive 28-section technical manual
-├── VortexStream_Abstract_2Page.docx # Academic 2-page bold abstract document
-├── VortexStream_Architecture_Flow.png # High-resolution architecture diagram
 ├── scripts/
 │   ├── create_topics.py            # Kafka topic initializer
 │   ├── populate_hbase.py           # Pipeline runner & fault injector
-│   ├── view_hbase.py               # Formatted HBase row inspector
-│   └── generate_abstract_docx.py   # Word document generator
+│   └── view_hbase.py               # Formatted HBase row inspector
 ├── src/qoe/
 │   ├── common/                     # Config, logging, schema, HBase key salting
 │   ├── producers/                  # Puffer replayer & chaos fault injectors
@@ -264,15 +253,6 @@ VortexStream/
 │   └── verify/                     # Data reconciliation & lineage verification
 └── tests/                          # 15-phase test suites (Phase 0 to Phase 14)
 ```
-
----
-
-## 10. Academic Deliverables & Documentation
-
-* **2-Page Printable Abstract**: [`VortexStream_Abstract_2Page.docx`](VortexStream_Abstract_2Page.docx)
-* **Architecture Diagram**: [`VortexStream_Architecture_Flow.png`](VortexStream_Architecture_Flow.png)
-* **28-Section Deep Dive Manual**: [`PROJECT_DEEP_DIVE.md`](PROJECT_DEEP_DIVE.md)
-* **Verification Report**: [`docs/verification_report.md`](docs/verification_report.md)
 
 ---
 

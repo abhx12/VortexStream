@@ -79,3 +79,13 @@ desktop.ini
 
 # Docker local mounts (if any)
 .docker/
+
+# Academic Deliverables, Manuals & Local Docs (Local Only)
+*.docx
+VortexStream_Architecture_Flow.png
+PROJECT_DEEP_DIVE.md
+VortexStream_Deep_Dive.md
+scripts/generate_abstract_docx.py
+scripts/generate_deep_dive.py
+scripts/doc_parts/
+
