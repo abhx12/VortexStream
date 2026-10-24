@@ -115,7 +115,32 @@ class DashboardDataAccess:
     def segment_history(self, grain: str, dimkey: str, minutes: int = 60) -> List[Dict[str, Any]]:
         """Retrieve recent windows for a segment, returned chronologically (oldest to newest)."""
         limit_count = max(1, minutes // 5)
-        # Try DuckDB
+        # Try HBase first for live telemetry
+        try:
+            import happybase
+            conn = happybase.Connection(host=self.hbase_host, port=self.hbase_port, timeout=2000)
+            table = conn.table("qoe_metrics")
+            prefix = f"{grain}#{dimkey}#".encode("utf-8")
+            rows = list(table.scan(row_prefix=prefix, limit=limit_count))
+            conn.close()
+            if rows:
+                hbase_hist = []
+                for row_key, data in rows:
+                    rec = {"row_key": row_key.decode("utf-8"), "grain": grain, "dimkey": dimkey}
+                    for k, v in data.items():
+                        col_name = k.decode("utf-8").split(":", 1)[-1]
+                        val_str = v.decode("utf-8")
+                        try:
+                            rec[col_name] = float(val_str)
+                        except ValueError:
+                            rec[col_name] = val_str
+                    hbase_hist.append(rec)
+                # HBase reverse timestamps order newest first; reverse so oldest is first for plotting
+                return list(reversed(hbase_hist))
+        except Exception:
+            pass
+
+        # DuckDB fallback
         query = f"""
             SELECT * FROM gold_qoe_5m 
             WHERE grain = '{grain}' AND dimkey = '{dimkey}' 
@@ -124,12 +149,41 @@ class DashboardDataAccess:
         df = self._query_duckdb(query)
         if not df.empty:
             rows = df.to_dict(orient="records")
-            # Reverse so oldest is first for line plotting
             return list(reversed(rows))
         return []
 
     def latest_all(self, grain: str) -> List[Dict[str, Any]]:
         """Retrieve latest window row for all dimkeys in a grain."""
+        # Try HBase first
+        try:
+            import happybase
+            conn = happybase.Connection(host=self.hbase_host, port=self.hbase_port, timeout=2000)
+            table = conn.table("qoe_metrics")
+            prefix = f"{grain}#".encode("utf-8")
+            seen_dimkeys = set()
+            hbase_all = []
+            for row_key, data in table.scan(row_prefix=prefix, limit=100):
+                rk = row_key.decode("utf-8")
+                parts = rk.split("#")
+                if len(parts) >= 3:
+                    dk = parts[1]
+                    if dk not in seen_dimkeys:
+                        seen_dimkeys.add(dk)
+                        rec = {"row_key": rk, "grain": grain, "dimkey": dk}
+                        for k, v in data.items():
+                            col_name = k.decode("utf-8").split(":", 1)[-1]
+                            val_str = v.decode("utf-8")
+                            try:
+                                rec[col_name] = float(val_str)
+                            except ValueError:
+                                rec[col_name] = val_str
+                        hbase_all.append(rec)
+            conn.close()
+            if hbase_all:
+                return hbase_all
+        except Exception:
+            pass
+
         query = f"""
             WITH ranked AS (
                 SELECT *, row_number() OVER (PARTITION BY dimkey ORDER BY window_end DESC) as rn
@@ -142,7 +196,32 @@ class DashboardDataAccess:
         return df.to_dict(orient="records") if not df.empty else []
 
     def recent_alerts(self, limit: int = 20) -> List[Dict[str, Any]]:
-        """Retrieve recent alert records sorted newest first."""
+        """Retrieve recent alert records sorted newest first from HBase."""
+        # Query HBase alerts table directly
+        try:
+            import happybase
+            conn = happybase.Connection(host=self.hbase_host, port=self.hbase_port, timeout=2000)
+            table = conn.table("alerts")
+            hbase_alerts = []
+            for row_key, data in table.scan(limit=limit):
+                a = {"row_key": row_key.decode("utf-8")}
+                for k, v in data.items():
+                    col_name = k.decode("utf-8").split(":", 1)[-1]
+                    val_str = v.decode("utf-8")
+                    if col_name in ("metric_value", "value", "threshold"):
+                        try:
+                            a[col_name] = float(val_str)
+                        except ValueError:
+                            a[col_name] = val_str
+                    else:
+                        a[col_name] = val_str
+                hbase_alerts.append(a)
+            conn.close()
+            return hbase_alerts
+        except Exception:
+            pass
+
+        # DuckDB fallback only if HBase fails
         query = f"""
             SELECT * FROM alerts 
             ORDER BY window_end DESC, opened_at DESC 

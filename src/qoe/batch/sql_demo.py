@@ -86,13 +86,13 @@ def run_sql_demo(
     # Query 3: QoE class distribution per city
     q3 = """
         SELECT 
-            city,
+            split_part(dimkey, '|', 1) as city,
             qoe_label,
             count(*) as count_windows
         FROM gold_qoe_5m
-        WHERE city IS NOT NULL
-        GROUP BY city, qoe_label
-        ORDER BY city, count_windows DESC;
+        WHERE grain = 'city_isp'
+        GROUP BY 1, 2
+        ORDER BY 1, count_windows DESC;
     """
     results["class_dist_city"] = con.execute(q3).df().to_dict(orient="records")
 

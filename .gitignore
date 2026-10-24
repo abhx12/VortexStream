@@ -1,31 +1,81 @@
-# Data directories
-data/
-checkpoints/
+# ==============================================================================
+# VortexStream .gitignore
+# Enterprise-scale Big Data Engineering & Streaming Architecture
+# ==============================================================================
 
-# Python
+# Big Data Storage, Lakes & Streaming Checkpoints
+data/
+warehouse/
+checkpoints/
+spark-warehouse/
+metastore_db/
+derby.log
+*.duckdb
+*.duckdb.wal
+*.parquet.crc
+*.tmp
+*.log
+logs/
+
+# Python Runtime, Compiles & Wheels
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
-.pytest_cache/
-.coverage
-htmlcov/
-*.egg-info/
+.Python
 build/
+develop-eggs/
 dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
 .venv/
 venv/
 ENV/
+env/
+venv*/
+ENV*/
 
-# Environment
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Environment Variables & Secrets
 .env
+.env.*
+!.env.example
 
-# IDE
+# IDE, Editors & System Artifacts
 .idea/
 .vscode/
 *.swp
 *.swo
-
-# OS
+*~
 .DS_Store
 Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Docker local mounts (if any)
+.docker/
